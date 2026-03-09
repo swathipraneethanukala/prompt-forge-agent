@@ -6,7 +6,7 @@ from PIL import Image
 app = Flask(__name__)
 
 
-API_KEY = "AIzaSyCd4Uhs7sCiGWOZsqClmce0d9O4z5ZP79M"
+API_KEY = "your api key"
 
 # Configure the AI model
 genai.configure(api_key=API_KEY)
@@ -173,4 +173,5 @@ def reverse_image_engineer():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
+
     app.run(debug=True, port=5000)
