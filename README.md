@@ -70,5 +70,3 @@ PromptForge analyzes the input and generates the **prompt needed to recreate the
 6. Use the **Reverse Engineer feature**
 
 ---
-
-## 📂 Project Structure
