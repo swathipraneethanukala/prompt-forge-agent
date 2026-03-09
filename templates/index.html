@@ -1,1 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PromptForge Agent | Next-Gen AI Prompting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .code-window {
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: rgba(51, 65, 85, 0.8); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(71, 85, 105, 1); }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0f172a] to-slate-950 min-h-screen p-4 md:p-8 text-slate-300 antialiased selection:bg-indigo-500/30 selection:text-indigo-200">
 
+    <div class="max-w-6xl mx-auto pb-12">
+        <div class="text-center mb-10 mt-4">
+            <div class="inline-block mb-3 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-sm font-semibold tracking-wide shadow-sm">
+                ✨ Agentic • Token-Optimized • Reverse Engineered
+            </div>
+            <h1 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 tracking-tight mb-3">
+                PromptForge Agent
+            </h1>
+            <p class="text-slate-400 font-medium text-lg max-w-2xl mx-auto">
+                Stop guessing. Let our AI ask you questions, compress your token costs, and reverse-engineer perfection.
+            </p>
+        </div>
+        
+        <div class="flex justify-center space-x-3 mb-10">
+            <button id="tabOptimizer" class="tab-btn active bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-blue-900/50 hover:scale-105 active:scale-95 transition-all duration-200">
+                Agentic Optimizer
+            </button>
+            <button id="tabReverse" class="tab-btn bg-slate-800/50 text-slate-400 px-8 py-3 rounded-full font-bold shadow-sm border border-slate-700/50 hover:shadow-md hover:bg-slate-800 hover:text-indigo-400 active:scale-95 transition-all duration-200">
+                Reverse Engineer
+            </button>
+        </div>
+
+        <div id="viewOptimizer" class="space-y-8 animate-fade-in">
+            
+            <div class="glass-card p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] relative overflow-hidden group">
+                <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-blue-500 to-indigo-500"></div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-blue-500/20 text-blue-400 w-8 h-8 rounded-full flex items-center justify-center font-bold border border-blue-500/20">1</div>
+                    <h2 class="text-2xl font-bold text-slate-100">Enter your core idea</h2>
+                </div>
+                
+                <textarea id="promptInput" class="w-full bg-slate-950/50 border border-slate-800 p-4 rounded-2xl h-28 mb-5 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/50 outline-none transition-all resize-y text-slate-100 placeholder-slate-600 text-lg shadow-inner" placeholder="e.g., write a compelling blog post about space travel..."></textarea>
+                
+                <div class="flex flex-col sm:flex-row items-center gap-4">
+                    <div class="relative w-full sm:w-auto">
+                        <select id="modelSelect" class="w-full sm:w-auto appearance-none border border-slate-800 p-3 pl-4 pr-10 rounded-xl bg-slate-900 font-semibold text-slate-200 focus:ring-2 focus:ring-indigo-500/50 outline-none shadow-sm cursor-pointer">
+                            <option value="ChatGPT (Markdown)">Target: ChatGPT</option>
+                            <option value="Claude 3.5 (XML Tags)">Target: Claude 3.5</option>
+                            <option value="Gemini Pro (Clear sections)">Target: Gemini</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                    <button id="clarifyBtn" class="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-indigo-900/50 font-bold transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2">
+                        Analyze & Ask Me
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </div>
+                
+                <div id="loadingClarify" class="hidden mt-4 flex items-center gap-3 text-blue-400 font-semibold bg-blue-500/10 p-3 rounded-lg w-fit border border-blue-500/20">
+                    <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    Analyzing prompt and generating clarifying questions...
+                </div>
+            </div>
+
+            <div id="clarificationArea" class="hidden bg-gradient-to-br from-amber-950/20 to-orange-950/20 p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-amber-900/30 relative overflow-hidden animate-fade-in">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                <div class="flex items-center gap-3 mb-5 relative z-10">
+                    <div class="bg-amber-500/20 text-amber-400 w-8 h-8 rounded-full flex items-center justify-center font-bold border border-amber-500/20">2</div>
+                    <h2 class="text-2xl font-bold text-amber-100">Let's clarify a few things</h2>
+                </div>
+                
+                <div id="questionsContainer" class="space-y-3 mb-6 bg-slate-900/50 p-5 rounded-2xl border border-amber-900/20 shadow-sm relative z-10 text-amber-200/90 font-medium">
+                </div>
+                
+                <textarea id="userAnswers" class="relative z-10 w-full bg-slate-950/50 border border-amber-900/30 p-4 rounded-2xl h-24 mb-5 focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500/50 outline-none transition-all text-slate-100 placeholder-slate-600 shadow-inner" placeholder="Type your answers here..."></textarea>
+                
+                <button id="optimizeBtn" class="relative z-10 bg-gradient-to-r from-amber-600 to-orange-600 text-white px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-orange-900/50 font-bold transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                    Forge Master Prompts & Compare
+                </button>
+
+                <div id="loadingOptimize" class="hidden mt-4 flex items-center gap-3 text-amber-500 font-semibold bg-amber-500/10 p-3 rounded-lg w-fit border border-amber-500/20 relative z-10">
+                    <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    Forging ultimate prompts...
+                </div>
+            </div>
+
+            <div id="resultsArea" class="hidden space-y-6 animate-fade-in">
+                <div class="flex items-center justify-center gap-3 mb-2">
+                    <div class="h-px bg-slate-700 w-1/4"></div>
+                    <span class="text-slate-500 font-bold tracking-widest uppercase text-sm">Optimization Results</span>
+                    <div class="h-px bg-slate-700 w-1/4"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Standard Prompt -->
+                    <div class="glass-card rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.2)] overflow-hidden flex flex-col">
+                        <div class="bg-slate-900 p-4 flex justify-between items-center border-b border-slate-800">
+                            <div class="flex space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <h3 class="font-bold text-slate-300 text-sm">Standard Prompt</h3>
+                        </div>
+                        <div class="p-6 flex-grow bg-slate-800/20">
+                            <div class="mb-5 bg-slate-900/50 p-4 rounded-xl border border-slate-700/50">
+                                <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wide mb-1">Diagnostic Score</h4>
+                                <div class="flex items-end gap-2 mb-2">
+                                    <span id="scoreVal" class="text-3xl font-extrabold text-indigo-400 leading-none">--</span>
+                                    <span class="text-slate-500 font-medium mb-1">/100</span>
+                                </div>
+                                <p id="analysisVal" class="text-slate-300 text-sm leading-relaxed"></p>
+                            </div>
+                            
+                            <h4 class="font-bold text-slate-200 mb-3 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Optimized Output
+                            </h4>
+                            <div class="code-window bg-slate-950 rounded-xl overflow-hidden h-64 relative group border border-slate-800">
+                                <pre id="standardPromptVal" class="text-blue-300 p-5 whitespace-pre-wrap text-sm font-mono h-full overflow-y-auto"></pre>
+                                <button onclick="copyText('standardPromptVal')" class="absolute top-3 right-3 bg-white/10 hover:bg-white/20 text-white p-2 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity border border-white/10">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Eco Prompt -->
+                    <div class="glass-card rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.2)] overflow-hidden flex flex-col relative border-emerald-900/30">
+                        <div class="absolute inset-0 bg-gradient-to-br from-emerald-950/20 to-teal-950/20 -z-10"></div>
+                        <div class="bg-emerald-950/80 p-4 flex justify-between items-center border-b border-emerald-900/50">
+                            <div class="flex items-center gap-2 text-emerald-300 text-sm font-bold">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                                Eco-Prompt
+                            </div>
+                            <span class="bg-emerald-500/10 text-emerald-400 text-xs px-3 py-1 rounded-full border border-emerald-500/20">Token Optimized</span>
+                        </div>
+                        
+                        <div class="p-6 flex-grow">
+                            <div class="mb-5 bg-slate-900/80 p-4 rounded-xl border border-slate-700/50 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                <div>
+                                    <h4 class="text-sm font-bold text-slate-200">Token Efficiency</h4>
+                                    <p class="text-slate-400 text-xs mt-1">Maintains logic while reducing API cost.</p>
+                                </div>
+                                <div class="flex items-center gap-3 text-sm font-bold bg-slate-950/50 p-2.5 rounded-lg border border-slate-800">
+                                    <div class="flex flex-col items-center px-2 border-r border-slate-700">
+                                        <span class="text-slate-500 text-[10px] uppercase">Old</span>
+                                        <span id="stdTokens" class="text-slate-300">--</span>
+                                    </div>
+                                    <div class="flex flex-col items-center px-2 border-r border-slate-700">
+                                        <span class="text-emerald-500 text-[10px] uppercase">New</span>
+                                        <span id="ecoTokens" class="text-emerald-400">--</span>
+                                    </div>
+                                    <div class="flex flex-col items-center pl-2">
+                                        <span class="text-blue-400 text-[10px] uppercase">Saved</span>
+                                        <span class="text-blue-300 bg-blue-900/30 border border-blue-800/50 px-2 rounded"><span id="savedTokens">--</span>%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h4 class="font-bold text-emerald-400 mb-3 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                Compressed Output
+                            </h4>
+                            <div class="code-window bg-[#022c22]/30 border border-emerald-900/50 rounded-xl overflow-hidden h-64 relative group">
+                                <pre id="ecoPromptVal" class="text-emerald-100 p-5 whitespace-pre-wrap text-sm font-mono h-full overflow-y-auto"></pre>
+                                <button onclick="copyText('ecoPromptVal')" class="absolute top-3 right-3 bg-emerald-900/50 hover:bg-emerald-800/80 text-emerald-200 p-2 rounded-lg shadow-sm opacity-0 group-hover:opacity-100 transition-all border border-emerald-700/50">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW FEATURE: Self-Correction Loop (RLHF) -->
+                <div class="bg-gradient-to-r from-slate-900 to-rose-950/20 p-6 rounded-3xl border border-rose-900/30 shadow-lg mt-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="bg-rose-500/20 p-2 rounded-lg border border-rose-500/30 text-rose-400">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-200">Poor Quality? Self-Correction Loop</h4>
+                    </div>
+                    <p class="text-slate-400 text-sm mb-4">Did the generated prompt miss the mark? Tell us what's wrong, and the AI will ask 1 targeted question to fix the logic and regenerate it.</p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-3" id="feedbackInputContainer">
+                        <input type="text" id="feedbackInput" class="flex-grow bg-slate-950 border border-slate-700 p-3.5 rounded-xl focus:ring-2 focus:ring-rose-500/50 outline-none text-slate-200 placeholder-slate-600 text-sm" placeholder="e.g., It forgot to include the call-to-action, and the tone is too academic.">
+                        <button id="refineBtn" class="bg-gradient-to-r from-rose-600 to-red-600 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:shadow-red-900/50 font-bold transition-all hover:-translate-y-0.5 active:translate-y-0 flex-shrink-0 flex items-center gap-2">
+                            Fix Poor Quality
+                        </button>
+                    </div>
+
+                    <div id="loadingRefine" class="hidden mt-4 flex items-center gap-3 text-rose-400 text-sm font-semibold">
+                        <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                        Analyzing failure and generating diagnostic question...
+                    </div>
+                    
+                    <!-- Refinement Question Area -->
+                    <div id="refinementArea" class="hidden mt-6 bg-rose-950/40 p-5 rounded-2xl border border-rose-800/50 shadow-inner animate-fade-in">
+                        <h5 class="text-rose-300 font-bold mb-2 flex items-center gap-2 text-sm uppercase tracking-wide">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Targeted Fix Required
+                        </h5>
+                        <p id="refinementQuestion" class="text-slate-100 font-medium mb-4 text-lg"></p>
+                        <textarea id="refinementAnswer" class="w-full bg-slate-950 border border-rose-900/50 p-4 rounded-xl h-24 mb-4 focus:ring-2 focus:ring-rose-500/50 outline-none text-slate-100 placeholder-slate-600 text-sm shadow-inner" placeholder="Answer to refine your prompt..."></textarea>
+                        <button id="reOptimizeBtn" class="bg-gradient-to-r from-rose-500 to-pink-600 text-white px-6 py-3 rounded-xl hover:shadow-lg font-bold transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                            Re-Forge Prompt
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="viewReverse" class="hidden space-y-8 animate-fade-in">
+            <!-- Reverse Engineering View Content -->
+            <div class="glass-card p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-purple-500 to-pink-500"></div>
+                
+                <div class="mb-8">
+                    <h2 class="text-3xl font-extrabold text-slate-100 mb-2">Reverse Engineer</h2>
+                    <p class="text-slate-400 font-medium">Extract the perfect master prompt from existing text or a vision/image file.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-b from-purple-950/20 to-slate-900/50 p-6 rounded-2xl border border-purple-900/30 hover:shadow-lg hover:shadow-purple-900/20 hover:border-purple-800/50 transition-all flex flex-col">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="bg-purple-500/20 text-purple-400 p-2 rounded-lg border border-purple-500/20">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                            </div>
+                            <h3 class="font-bold text-slate-200 text-lg">Option A: Text</h3>
+                        </div>
+                        <p class="text-sm text-slate-400 mb-4 leading-relaxed">Paste an article, email, or code snippet. We'll generate the prompt needed to recreate it.</p>
+                        <textarea id="targetTextInput" class="flex-grow w-full bg-slate-950/50 border border-slate-700 p-4 rounded-xl mb-4 focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500/50 outline-none transition-all text-slate-200 placeholder-slate-600 shadow-inner resize-none min-h-[150px]" placeholder="Paste target text or rough idea here..."></textarea>
+                        <button id="reverseTextBtn" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:shadow-purple-900/50 font-bold transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 border border-purple-500/50 mt-auto">
+                            Extract From Text
+                        </button>
+                    </div>
+
+                    <div class="bg-gradient-to-b from-pink-950/20 to-slate-900/50 p-6 rounded-2xl border border-pink-900/30 hover:shadow-lg hover:shadow-pink-900/20 hover:border-pink-800/50 transition-all flex flex-col">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="bg-pink-500/20 text-pink-400 p-2 rounded-lg border border-pink-500/20">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            </div>
+                            <h3 class="font-bold text-slate-200 text-lg">Option B: Image</h3>
+                        </div>
+                        <p class="text-sm text-slate-400 mb-4 leading-relaxed">Upload an image to extract a highly detailed prompt optimized for Midjourney, DALL-E, or Stable Diffusion.</p>
+                        
+                        <div class="relative flex-grow mb-4 group cursor-pointer flex flex-col min-h-[150px]">
+                            <input type="file" id="imageInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+                            <div id="dropZone" class="flex-grow border-2 border-dashed border-pink-900/50 bg-pink-950/10 group-hover:bg-pink-900/30 rounded-xl p-6 flex flex-col items-center justify-center text-center transition-colors relative overflow-hidden">
+                                <svg class="w-8 h-8 text-pink-500/50 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                                <span class="text-pink-300 font-medium block">Click to upload</span>
+                                <span class="text-slate-500 text-xs mt-1">PNG, JPG, WEBP</span>
+                                <img id="imagePreview" class="absolute inset-0 w-full h-full object-cover hidden z-0 opacity-40 mix-blend-screen" />
+                            </div>
+                        </div>
+                        
+                        <button id="reverseImgBtn" class="w-full bg-gradient-to-r from-pink-600 to-purple-600 text-white px-6 py-3 rounded-xl hover:shadow-lg hover:shadow-pink-900/50 font-bold transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 border border-pink-500/50 mt-auto opacity-50 cursor-not-allowed" disabled>
+                            Extract From Image
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reverseResultsArea" class="hidden mt-8 bg-slate-900/80 p-6 rounded-3xl border border-slate-700/50 shadow-xl animate-fade-in">
+                <h3 class="font-bold text-slate-200 mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    Extracted Prompt
+                </h3>
+                <div class="code-window bg-slate-950 rounded-xl overflow-hidden h-64 relative group border border-slate-800">
+                    <pre id="reversePromptVal" class="text-purple-300 p-5 whitespace-pre-wrap text-sm font-mono h-full overflow-y-auto"></pre>
+                    <button onclick="copyText('reversePromptVal')" class="absolute top-3 right-3 bg-white/10 hover:bg-white/20 text-white p-2 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity border border-white/10">Copy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Tab Navigation Logic ---
+        const tabOptimizer = document.getElementById('tabOptimizer');
+        const tabReverse = document.getElementById('tabReverse');
+        const viewOptimizer = document.getElementById('viewOptimizer');
+        const viewReverse = document.getElementById('viewReverse');
+
+        // Global state to store the latest generated standard prompt for debugging
+        let currentGeneratedStandardPrompt = "";
+
+        function switchTab(activeTab, showView, inactiveTab, hideView) {
+            activeTab.className = "tab-btn active bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-blue-900/50 hover:scale-105 active:scale-95 transition-all duration-200";
+            if(activeTab === tabReverse) {
+                activeTab.className = "tab-btn active bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-purple-900/50 hover:scale-105 active:scale-95 transition-all duration-200";
+            }
+            inactiveTab.className = "tab-btn bg-slate-800/50 text-slate-400 px-8 py-3 rounded-full font-bold shadow-sm border border-slate-700/50 hover:shadow-md hover:bg-slate-800 hover:text-indigo-400 active:scale-95 transition-all duration-200";
+            hideView.classList.add('hidden');
+            showView.classList.remove('hidden');
+        }
+
+        tabOptimizer.addEventListener('click', () => switchTab(tabOptimizer, viewOptimizer, tabReverse, viewReverse));
+        tabReverse.addEventListener('click', () => switchTab(tabReverse, viewReverse, tabOptimizer, viewOptimizer));
+
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text);
+        }
+
+        // --- Feature 1: Agentic Clarification Loop ---
+        const btnClarify = document.getElementById('clarifyBtn');
+        const loadingClarify = document.getElementById('loadingClarify');
+        const clarificationArea = document.getElementById('clarificationArea');
+        const questionsContainer = document.getElementById('questionsContainer');
+
+        btnClarify.addEventListener('click', async () => {
+            const promptInput = document.getElementById('promptInput').value;
+            if(!promptInput.trim()) { alert('Please enter a core idea first.'); return; }
+            
+            btnClarify.disabled = true;
+            loadingClarify.classList.remove('hidden');
+            
+            try {
+                const response = await fetch('/clarify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: promptInput })
+                });
+                
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+
+                questionsContainer.innerHTML = '';
+                if (data.questions && Array.isArray(data.questions)) {
+                    data.questions.forEach((q, idx) => {
+                        const p = document.createElement('p');
+                        p.innerText = `${idx + 1}. ${q}`;
+                        questionsContainer.appendChild(p);
+                    });
+                }
+                
+                loadingClarify.classList.add('hidden');
+                clarificationArea.classList.remove('hidden');
+                clarificationArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } catch (error) {
+                alert('Backend Error: ' + error.message);
+                loadingClarify.classList.add('hidden');
+            } finally {
+                btnClarify.disabled = false;
+            }
+        });
+
+        // --- Feature 2: Optimizer & Eco-Prompting ---
+        const btnOptimize = document.getElementById('optimizeBtn');
+        const loadingOptimize = document.getElementById('loadingOptimize');
+        const resultsArea = document.getElementById('resultsArea');
+
+        btnOptimize.addEventListener('click', async () => {
+            const weakPrompt = document.getElementById('promptInput').value;
+            const userAnswers = document.getElementById('userAnswers').value;
+            const targetModel = document.getElementById('modelSelect').value;
+
+            btnOptimize.disabled = true;
+            loadingOptimize.classList.remove('hidden');
+            
+            // Hide self-correction UI if re-running
+            document.getElementById('refinementArea').classList.add('hidden');
+            document.getElementById('feedbackInput').value = '';
+            
+            try {
+                const response = await fetch('/optimize', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        prompt: weakPrompt, 
+                        answers: userAnswers,
+                        target_model: targetModel 
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+
+                document.getElementById('scoreVal').innerText = data.score || "N/A";
+                document.getElementById('analysisVal').innerText = data.analysis || "Analysis complete.";
+                
+                // Store globally for refinement loop
+                currentGeneratedStandardPrompt = data.standard_prompt || "No output generated.";
+                
+                document.getElementById('standardPromptVal').innerText = currentGeneratedStandardPrompt;
+                document.getElementById('ecoPromptVal').innerText = data.eco_prompt || "No output generated.";
+                
+                if(data.token_stats) {
+                    document.getElementById('stdTokens').innerText = data.token_stats.standard;
+                    document.getElementById('ecoTokens').innerText = data.token_stats.eco;
+                    document.getElementById('savedTokens').innerText = data.token_stats.savings;
+                }
+                
+                loadingOptimize.classList.add('hidden');
+                resultsArea.classList.remove('hidden');
+                resultsArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } catch (error) {
+                alert('Backend Error: ' + error.message);
+                loadingOptimize.classList.add('hidden');
+            } finally {
+                btnOptimize.disabled = false;
+            }
+        });
+
+        // --- NEW FEATURE: Self-Correction Loop (RLHF) ---
+        const refineBtn = document.getElementById('refineBtn');
+        const loadingRefine = document.getElementById('loadingRefine');
+        const refinementArea = document.getElementById('refinementArea');
+        const refinementQuestion = document.getElementById('refinementQuestion');
+        const reOptimizeBtn = document.getElementById('reOptimizeBtn');
+
+        refineBtn.addEventListener('click', async () => {
+            const feedbackInput = document.getElementById('feedbackInput').value;
+            const weakPrompt = document.getElementById('promptInput').value;
+            const previousAnswers = document.getElementById('userAnswers').value;
+
+            if(!feedbackInput.trim()) {
+                alert("Please tell us what's wrong with the prompt first!");
+                return;
+            }
+
+            refineBtn.disabled = true;
+            loadingRefine.classList.remove('hidden');
+            refinementArea.classList.add('hidden');
+
+            try {
+                const response = await fetch('/refine', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        prompt: weakPrompt, 
+                        answers: previousAnswers,
+                        optimized_prompt: currentGeneratedStandardPrompt,
+                        feedback: feedbackInput
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+
+                refinementQuestion.innerText = data.question;
+                loadingRefine.classList.add('hidden');
+                refinementArea.classList.remove('hidden');
+                document.getElementById('refinementAnswer').value = ''; // clear previous answer
+                
+            } catch (error) {
+                alert('Backend Error: ' + error.message);
+                loadingRefine.classList.add('hidden');
+            } finally {
+                refineBtn.disabled = false;
+            }
+        });
+
+        reOptimizeBtn.addEventListener('click', () => {
+            const answer = document.getElementById('refinementAnswer').value;
+            const feedback = document.getElementById('feedbackInput').value;
+            if(!answer.trim()) { alert('Please answer the refinement question to proceed.'); return; }
+
+            // Append the failure logic and correction to the context window
+            const userAnswersContext = document.getElementById('userAnswers');
+            userAnswersContext.value += `\n\n[Previous Failure Insight]: I disliked the last output because: "${feedback}". \n[Correction]: ${answer}`;
+
+            // Re-trigger the standard optimize flow with the upgraded context
+            document.getElementById('optimizeBtn').click();
+        });
+
+
+        // --- Feature 3 & 4: Reverse Engineering ---
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const reverseImgBtn = document.getElementById('reverseImgBtn');
+        const reverseTextBtn = document.getElementById('reverseTextBtn');
+        const reverseResultsArea = document.getElementById('reverseResultsArea');
+        const reversePromptVal = document.getElementById('reversePromptVal');
+
+        imageInput.addEventListener('change', function(e) {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.remove('hidden');
+                    reverseImgBtn.disabled = false;
+                    reverseImgBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        async function runReverseEngineering(type) {
+            const btn = type === 'text' ? reverseTextBtn : reverseImgBtn;
+            const originalHTML = btn.innerHTML;
+            
+            btn.disabled = true;
+            btn.innerHTML = `Loading...`;
+            
+            try {
+                let response;
+                if (type === 'text') {
+                    const textValue = document.getElementById('targetTextInput').value;
+                    response = await fetch('/reverse', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text: textValue })
+                    });
+                } else {
+                    const formData = new FormData();
+                    formData.append('image', imageInput.files[0]);
+                    response = await fetch('/reverse-image', {
+                        method: 'POST',
+                        body: formData 
+                    });
+                }
+                
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+                
+                reversePromptVal.innerText = data.extracted_prompt || "No prompt extracted.";
+                reverseResultsArea.classList.remove('hidden');
+                reverseResultsArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+            } catch (error) {
+                alert(`Error reversing ${type}: ` + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
+            }
+        }
+
+        reverseTextBtn.addEventListener('click', () => {
+            if(!document.getElementById('targetTextInput').value.trim()) {
+                alert('Please enter text to reverse engineer.'); return;
+            }
+            runReverseEngineering('text');
+        });
+
+        reverseImgBtn.addEventListener('click', () => {
+            runReverseEngineering('image');
+        });
+    </script>
+</body>
+</html>
